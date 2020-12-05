@@ -1,5 +1,6 @@
 <script>
-    function computerPlay(){
+    /*Returns the random selection for computer*/
+    function computerPlay(){         
         let num = Math.floor(Math.random()*3);
         switch(num){
             case 0: return 'Rock';
@@ -7,13 +8,73 @@
             default: return 'Scissor';
         }
     }
-
+    /*Plays through one single round returning the text response of the winner*/
     function singleRound(playerSelection, computerSelection){
-
+        let response; 
+        playerSelection = playerSelection.toLowerCase(); /*lower cases the entire input to allow for any capitlizations on input from user*/
+        switch(playerSelection){ 
+            case'rock':{
+                if(computerSelection === 'Paper'){
+                    response = "You Lose! Paper beats Rock";
+                } else if(computerSelection === 'Scissor'){
+                    response = "You Win! Rock beats Scissor"
+                } else response = "It's a tie!";
+            break;
+            }
+            case 'scissor':{
+                if(computerSelection === 'Paper'){
+                    response = "You Win! Scissor beats Paper";
+                } else if(computerSelection === 'Rock'){
+                    response = "You Lose! Rock beats Scissor"
+                } else response = "It's a tie!";
+            break;
+            }
+            case 'paper' :{
+                if(computerSelection === 'Rock'){
+                    response = "You Win! Paper beats Rock";
+                } else if(computerSelection === 'Scissor'){
+                    response = "You Lose! Scissor beats Paper"
+                } else response = "It's a tie!";
+                break;
+            }
+            default: response = "Invalid response!"; /*default response if user doesn't spell correctly*/
+        }
+        return response;
     }
-console.log(computerPlay());
-console.log(computerPlay());
-console.log(computerPlay());
-console.log(computerPlay());
+
+    /*Game loop that sets up the player score and loops through 5 iterations giving the score after each one then at the end declaring the winner.*/
+    function game(){
+        let playerScore = 0;
+        let compScore = 0;
+        for(let i=1; i<6; i++){
+            let userPick = prompt(`Welcome to Rock, Paper, Scissors! \n\nIt's best of 5 rounds!\n\nChoose your weapon: `);
+            const compPick = computerPlay();
+            let result =  singleRound(userPick,compPick);
+
+            console.log(result); 
+
+            switch(result){         /*uses the results string to increment correct score*/       
+                case "You Win! Rock beats Scissor": 
+                case "You Win! Scissor beats Paper":
+                case "You Win! Paper beats Rock":
+                {++playerScore; break;}
+                case "You Lose! Rock beats Scissor": 
+                case "You Lose! Scissor beats Paper":
+                case "You Lose! Paper beats Rock":
+                {++compScore; break;}
+                case "It's a tie!": {++playerScore; ++compScore};
+            };
+
+            console.log("  Player: " + playerScore);
+            console.log("Computer: " + compScore);
+        }
+        if(playerScore > compScore){ /*computes the winner of the game and displays final game message*/
+            console.log("Player Wins!");
+        } else if (playerScore < compScore) {
+            console.log("Computer Wins!");
+        } else console.log("Even Score! Its a tie!");
+    }
+
+game(); /* Runs the game one time*/
 
 </script>

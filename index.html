@@ -1,11 +1,15 @@
 <html>
 <body>
 
+
+
+</body>
+<h3>Welcome to Rock, Paper, Scissors!</h3>
+<h4>Its best of 5 rounds. Good Luck!</h4>
+
 <button class="weaponButton">Rock</button>
 <button class="weaponButton">Scissor</button>
 <button class="weaponButton">Paper</button>
-
-</body>
 
 <div>Round 1 Player: 0 Computer: 0</div>
 
@@ -34,6 +38,7 @@ function singleRound(e){
         const roundResultNode = document.createElement('div');
         const roundResultText = findWinner(playPick, computerPlay());
 
+        document.querySelector("body").appendChild(document.createElement('br'));
         roundResultNode.textContent = roundResultText;
         document.querySelector("body").appendChild(roundResultNode)
         game(roundResultText);
@@ -52,9 +57,6 @@ function endGame(){
     endGameNode.textContent = "GAME OVER! " + winnerText;
     document.querySelector("body").appendChild(endGameNode);
 
-    //Reset Score at end of game
-    playerScore = 0;
-    compScore = 0;
     playAgain();
 }
 
@@ -68,7 +70,9 @@ function playAgain(){
 }
 
 function restartGame(){
-    roundNum = 1; 
+    roundNum = 1; //Reset Score at end of game
+    playerScore = 0;
+    compScore = 0;
     location.reload();
 }
 

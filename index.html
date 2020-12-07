@@ -1,4 +1,86 @@
+<html>
+<body>
+
+<button class="weaponButton">Rock</button>
+<button class="weaponButton">Scissor</button>
+<button class="weaponButton">Paper</button>
+
+</body>
+
+<div>Round 1 Player: 0 Computer:0</div>
+
+</html>
+
+
+<style>
+
+
+
+
+</style>
+
+
 <script>
+let playerScore = 0;
+let compScore = 0;
+let roundNum = 1;
+console.log(playerScore + "   " + compScore + "   " + roundNum);
+
+document.querySelectorAll('.weaponButton').forEach(button => button.addEventListener('click', singleRound));
+
+function singleRound(e){
+    const playPick = e.target.textContent;
+    const roundResultNode = document.createElement('div');
+    const roundResultText = findWinner(playPick, computerPlay());
+
+    roundResultNode.textContent = roundResultText;
+    document.querySelector("body").appendChild(roundResultNode)
+    game(roundResultText);
+}
+
+function endGame(){
+    const endGameNode = document.createElement('div');
+
+    let winnerText = "It's a tie!";
+        if(playerScore > compScore){ //computes the winner of the game and displays final game message 
+            winnerText = "Player Wins!";
+        } else if (playerScore < compScore) {
+            winnerText = "Computer Wins!";
+        } 
+    endGameNode.textContent = winnerText;
+    document.querySelector("body").appendChild(endGameNode);
+
+    //Reset Score at end of game
+    roundNum = 1;
+    playerScore = 0;
+    compScore = 0;
+}
+
+function displayScore(){
+    const roundScoreNode = document.createElement('div');
+    roundScoreNode.textContent = "Round "+ roundNum + " Player: " + playerScore + " Computer: " + compScore;
+    document.querySelector("body").appendChild(roundScoreNode);
+}
+
+
+function game(roundResult){
+    switch(roundResult){         /*uses the results string to increment correct score*/       
+        case "You Win! Rock beats Scissor": 
+        case "You Win! Scissor beats Paper":
+        case "You Win! Paper beats Rock":
+            {playerScore++; break;}
+        case "You Lose! Rock beats Scissor": 
+        case "You Lose! Scissor beats Paper":
+        case "You Lose! Paper beats Rock":
+            {++compScore; break;}
+        };
+
+    roundNum++;
+
+    if(roundNum > 5) endGame();
+    else displayScore();
+}
+
     /*Returns the random selection for computer*/
     function computerPlay(){         
         let num = Math.floor(Math.random()*3);
@@ -9,7 +91,7 @@
         }
     }
     /*Plays through one single round returning the text response of the winner*/
-    function singleRound(playerSelection, computerSelection){
+    function findWinner(playerSelection, computerSelection){
         let response; 
         playerSelection = playerSelection.toLowerCase(); /*lower cases the entire input to allow for any capitlizations on input from user*/
         switch(playerSelection){ 
@@ -37,44 +119,10 @@
                 } else response = "It's a tie!";
                 break;
             }
-            default: response = "Invalid response!"; /*default response if user doesn't spell correctly*/
+            //default: response = "Invalid response!"; /*default response if user doesn't spell correctly*/
         }
         return response;
     }
 
-    /*Game loop that sets up the player score and loops through 5 iterations giving the score after each one then at the end declaring the winner.*/
-    function game(){
-        let playerScore = 0;
-        let compScore = 0;
-        for(let i=1; i<6; i++){
-            let userPick = prompt(`Welcome to Rock, Paper, Scissors! \n\nIt's best of 5 rounds!\n\nChoose your weapon: `);
-            const compPick = computerPlay();
-            let result =  singleRound(userPick,compPick);
-
-            console.log(result); 
-
-            switch(result){         /*uses the results string to increment correct score*/       
-                case "You Win! Rock beats Scissor": 
-                case "You Win! Scissor beats Paper":
-                case "You Win! Paper beats Rock":
-                {++playerScore; break;}
-                case "You Lose! Rock beats Scissor": 
-                case "You Lose! Scissor beats Paper":
-                case "You Lose! Paper beats Rock":
-                {++compScore; break;}
-                case "It's a tie!": {++playerScore; ++compScore};
-            };
-
-            console.log("  Player: " + playerScore);
-            console.log("Computer: " + compScore);
-        }
-        if(playerScore > compScore){ /*computes the winner of the game and displays final game message*/
-            console.log("Player Wins!");
-        } else if (playerScore < compScore) {
-            console.log("Computer Wins!");
-        } else console.log("Even Score! Its a tie!");
-    }
-
-game(); /* Runs the game one time*/
 
 </script>

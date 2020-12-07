@@ -15,7 +15,7 @@
 
 
 <div class=gameLoop>
-<div>Round 1 Player: 0 Computer: 0</div>
+<div id=score></div>
 
 </div>
 </body>
@@ -30,7 +30,7 @@ h3, h4{
 }
 
 body{
-    background: rgb(172, 166, 166);
+    background: rgb(130, 168, 204);
     font-size: 1.5em;
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -54,7 +54,7 @@ body{
     margin: 15px;
 }
 
-.result, .score{
+.result{
    margin: 5px;
 }
 
@@ -62,19 +62,25 @@ body{
     text-align: center;
 }
 
+.gameOver{
+    margin: 40px 0 0 25px;
+    font-size: 1.5em;
+}
+
+
 </style>
 
 
 <script>
 let playerScore = 0;
 let compScore = 0;
-let roundNum = 1;
-console.log(playerScore + "   " + compScore + "   " + roundNum);
+let roundNum = 0;
 
 document.querySelectorAll('.weaponButton').forEach(button => button.addEventListener('click', singleRound));
 
 function singleRound(e){
-    if (roundNum<6){
+    if (roundNum<=4){
+        roundNum++;
         const playPick = e.target.textContent;
         const roundResultNode = document.createElement('div');
         roundResultNode.className = "result";
@@ -84,12 +90,36 @@ function singleRound(e){
         roundResultNode.textContent = roundResultText;
         document.querySelector(".gameLoop").appendChild(roundResultNode)
         game(roundResultText);
+        
     }
+}
+
+function game(roundResult){
+    switch(roundResult){         /*uses the results string to increment correct score*/       
+        case "You Win! Rock beats Scissor": 
+        case "You Win! Scissor beats Paper":
+        case "You Win! Paper beats Rock":
+            {playerScore++; break;}
+        case "You Lose! Rock beats Scissor": 
+        case "You Lose! Scissor beats Paper":
+        case "You Lose! Paper beats Rock":
+            {++compScore; break;}
+        };
+
+    if(roundNum > 4) endGame();
+    
+
+    displayScore();
+}
+
+function displayScore(){
+    const roundScore = document.getElementById("score");
+    roundScore.textContent = "Round "+ roundNum + " Player: " + playerScore + " Computer: " + compScore;
 }
 
 function endGame(){
     const endGameNode = document.createElement('div');
-    endGameNode.className = "gameover";
+    endGameNode.className = "gameOver";
 
     let winnerText = "It's a tie!";
         if(playerScore > compScore){ //computes the winner of the game and displays final game message 
@@ -119,41 +149,15 @@ function restartGame(){
     location.reload();
 }
 
-function displayScore(){
-    const roundScoreNode = document.createElement('div');
-    roundScoreNode.className = "score";
-    roundScoreNode.textContent = "Round "+ roundNum + " Player: " + playerScore + " Computer: " + compScore;
-    document.querySelector(".gameLoop").appendChild(roundScoreNode);
-}
-
-
-function game(roundResult){
-    switch(roundResult){         /*uses the results string to increment correct score*/       
-        case "You Win! Rock beats Scissor": 
-        case "You Win! Scissor beats Paper":
-        case "You Win! Paper beats Rock":
-            {playerScore++; break;}
-        case "You Lose! Rock beats Scissor": 
-        case "You Lose! Scissor beats Paper":
-        case "You Lose! Paper beats Rock":
-            {++compScore; break;}
-        };
-
-    roundNum++;
-
-    if(roundNum > 5) endGame();
-    else displayScore();
-}
-
     /*Returns the random selection for computer*/
-    function computerPlay(){         
-        let num = Math.floor(Math.random()*3);
-        switch(num){
-            case 0: return 'Rock';
-            case 1: return 'Paper';
-            default: return 'Scissor';
-        }
+function computerPlay(){         
+    let num = Math.floor(Math.random()*3);
+    switch(num){
+        case 0: return 'Rock';
+        case 1: return 'Paper';
+        default: return 'Scissor';
     }
+}
     /*Plays through one single round returning the text response of the winner*/
     function findWinner(playerSelection, computerSelection){
         let response; 

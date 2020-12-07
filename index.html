@@ -3,23 +3,64 @@
 
 
 
-</body>
+
 <h3>Welcome to Rock, Paper, Scissors!</h3>
 <h4>Its best of 5 rounds. Good Luck!</h4>
 
+<div class="buttonContainer">
 <button class="weaponButton">Rock</button>
 <button class="weaponButton">Scissor</button>
 <button class="weaponButton">Paper</button>
+</div>
 
+
+<div class=gameLoop>
 <div>Round 1 Player: 0 Computer: 0</div>
 
+</div>
+</body>
 </html>
 
 
 <style>
 
+h3, h4{
+    display: flex;
+    justify-content: center;
+}
 
+body{
+    background: rgb(172, 166, 166);
+    font-size: 1.5em;
+}
 
+.buttonContainer{
+    display: flex;
+    justify-content: center;
+}
+
+.weaponButton{
+    min-height: 3em;
+    margin: 15px;
+    width: 130px;
+    font-size: 1em;
+}
+
+.playAgainButton{
+    min-height: 2em;
+    width: 300px;
+    font-size:1.5em;
+    margin: 15px;
+}
+
+.result, .score{
+   margin: 5px;
+}
+
+.gameLoop{
+    text-align: center;
+   
+}
 
 </style>
 
@@ -36,17 +77,19 @@ function singleRound(e){
     if (roundNum<6){
         const playPick = e.target.textContent;
         const roundResultNode = document.createElement('div');
+        roundResultNode.className = "result";
         const roundResultText = findWinner(playPick, computerPlay());
 
-        document.querySelector("body").appendChild(document.createElement('br'));
+        document.querySelector(".gameLoop").appendChild(document.createElement('br'));
         roundResultNode.textContent = roundResultText;
-        document.querySelector("body").appendChild(roundResultNode)
+        document.querySelector(".gameLoop").appendChild(roundResultNode)
         game(roundResultText);
     }
 }
 
 function endGame(){
     const endGameNode = document.createElement('div');
+    endGameNode.className = "gameover";
 
     let winnerText = "It's a tie!";
         if(playerScore > compScore){ //computes the winner of the game and displays final game message 
@@ -55,7 +98,7 @@ function endGame(){
             winnerText = "Computer Wins!";
         } 
     endGameNode.textContent = "GAME OVER! " + winnerText;
-    document.querySelector("body").appendChild(endGameNode);
+    document.querySelector(".gameLoop").appendChild(endGameNode);
 
     playAgain();
 }
@@ -64,7 +107,7 @@ function playAgain(){
     const playAgainNode = document.createElement('button');
     playAgainNode.className = "playAgainButton";
     playAgainNode.textContent = "Play Again?";
-    document.querySelector("body").appendChild(playAgainNode);
+    document.querySelector(".gameLoop").appendChild(playAgainNode);
 
     document.querySelectorAll('.playAgainButton').forEach(button => button.addEventListener('click', restartGame));
 }
@@ -78,8 +121,9 @@ function restartGame(){
 
 function displayScore(){
     const roundScoreNode = document.createElement('div');
+    roundScoreNode.className = "score";
     roundScoreNode.textContent = "Round "+ roundNum + " Player: " + playerScore + " Computer: " + compScore;
-    document.querySelector("body").appendChild(roundScoreNode);
+    document.querySelector(".gameLoop").appendChild(roundScoreNode);
 }
 
 

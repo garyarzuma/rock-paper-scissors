@@ -7,7 +7,7 @@
 
 </body>
 
-<div>Round 1 Player: 0 Computer:0</div>
+<div>Round 1 Player: 0 Computer: 0</div>
 
 </html>
 
@@ -29,13 +29,15 @@ console.log(playerScore + "   " + compScore + "   " + roundNum);
 document.querySelectorAll('.weaponButton').forEach(button => button.addEventListener('click', singleRound));
 
 function singleRound(e){
-    const playPick = e.target.textContent;
-    const roundResultNode = document.createElement('div');
-    const roundResultText = findWinner(playPick, computerPlay());
+    if (roundNum<6){
+        const playPick = e.target.textContent;
+        const roundResultNode = document.createElement('div');
+        const roundResultText = findWinner(playPick, computerPlay());
 
-    roundResultNode.textContent = roundResultText;
-    document.querySelector("body").appendChild(roundResultNode)
-    game(roundResultText);
+        roundResultNode.textContent = roundResultText;
+        document.querySelector("body").appendChild(roundResultNode)
+        game(roundResultText);
+    }
 }
 
 function endGame(){
@@ -47,13 +49,27 @@ function endGame(){
         } else if (playerScore < compScore) {
             winnerText = "Computer Wins!";
         } 
-    endGameNode.textContent = winnerText;
+    endGameNode.textContent = "GAME OVER! " + winnerText;
     document.querySelector("body").appendChild(endGameNode);
 
     //Reset Score at end of game
-    roundNum = 1;
     playerScore = 0;
     compScore = 0;
+    playAgain();
+}
+
+function playAgain(){
+    const playAgainNode = document.createElement('button');
+    playAgainNode.className = "playAgainButton";
+    playAgainNode.textContent = "Play Again?";
+    document.querySelector("body").appendChild(playAgainNode);
+
+    document.querySelectorAll('.playAgainButton').forEach(button => button.addEventListener('click', restartGame));
+}
+
+function restartGame(){
+    roundNum = 1; 
+    location.reload();
 }
 
 function displayScore(){

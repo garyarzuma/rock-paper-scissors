@@ -13,8 +13,6 @@ Demonstrated Skills:
     -Has a default case for invalid user input.
     -Uses console.log() to display game results. 
 
-I will be adding a GUI into the webpage at a future time.
-
 Overall project time: 2 hours
 Date Completed: 12/5/2020
 

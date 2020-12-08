@@ -5,6 +5,7 @@ This was my first project done using Javascript.
 
 Demonstrated Skills:
 
+    -Manipulated HTML Dom using Javascript to display game dialog. 
     -Used Math.random and Math.floor functions to generate computer move.
     -Used switch statements and if/else if/else statements to code different game outputs depending on player input and the random computer move.
     -Main game loop uses a For loop to cycle through the different rounds of the game before finally displaying final game results. 
